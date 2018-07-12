@@ -1,11 +1,8 @@
 - hosts: all
-  become: yes
-  become_user: ishikura
   remote_user: ishikura
-  vars:
-    username: newuser
   tasks:
     - name: ツール群をインストール
+      become: yes
       apt: name={{ item }} state=installed
       with_items:
         - git
@@ -48,4 +45,43 @@
         - git config --global color.diff auto
         - git config --global color.status auto
         - git config --global color.branch auto
+
+
+    - name: dockerのアンインストール
+      become: yes
+      ignore_errors: yes
+      apt: 
+        name: "{{ packages }}"
+      state: absent
+      update_cache: yes
+      vars:
+        packages:
+        - docker 
+        - docker-engine
+        - docker.io
+
+    - name: docker関連パッケージのインストール
+      become: yes
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: dockerリポジトリ鍵の登録
+      become: yes
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+    - name: dockerリポジトリの登録
+      become: yes
+      shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+    - name: dockerインストール
+      become: yes
+      apt:
+        name: docker-ce
+        update_cache: yes
 
