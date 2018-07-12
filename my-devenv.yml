@@ -34,7 +34,7 @@
     - name: このリポジトリをホームディレクトリ以下に配置
       git: 
         repo: 'https://github.com/tilt-silvie/my-devenv'
-        desk: ~/
+        dest: ~/
 
     - name: dotfilesのシンボリックリンクを作成
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/dotfiles/.vimrc state=link
