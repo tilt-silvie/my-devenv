@@ -5,10 +5,19 @@
       become: yes
       apt: name={{ item }} state=installed
       with_items:
-        - git
         - neovim  
         - zsh
         - curl
+
+    - name: gitの設定
+      become: yes
+      apt: name=git state=latest
+    - git_config: name=user.name scope=global value="Makito Ishikura"
+    - git_config: name=user.email scope=global value="tilt.silvie@gail.com"
+    - git_config: name=color.ui scope=global value=true
+    - git_config: name=core.editor scope=global value="vim -c 'set fenc=utf-8'"
+    - git_config: name=color.status scope=global value=auto
+    - git_config: name=color.branch scope=global value=auto
 
     - name: oh-my-zshをインストール
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -35,16 +44,6 @@
 
     - name: dotfilesのシンボリックリンクを作成
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
-
-    - name: gitの設定
-      shell: "{{ item }}"
-      with_items:
-        - git config --global user.email "tilt.silvie@gmail.com"
-        - git config --global user.name "Makito Ishikura"
-        - git config --global core.editor 'vim -c "set fenc=utf-8"'
-        - git config --global color.diff auto
-        - git config --global color.status auto
-        - git config --global color.branch auto
 
 
     - name: dockerのアンインストール
