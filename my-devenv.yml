@@ -1,0 +1,41 @@
+- hosts: all
+  become: yes
+  become_user: ishikura
+  remote_user: ishikura
+  vars:
+    username: newuser
+  tasks:
+    - name: ツール群をインストール
+      apt: name={{ item }} state=installed
+      with_items:
+        - git
+        - neovim  
+        - zsh
+        - curl
+
+    - name: oh-my-zshをインストール
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
+      shell: LANG=C xdg-user-dirs-update --force
+
+    - name: ホームディレクトリ以下に残った日本語ディレクトリを削除する
+      file: path={{ item }} state=absent
+      with_items:
+        - ~/ダウンロード
+        - ~/テンプレート
+        - ~/デスクトップ
+        - ~/ドキュメント
+        - ~/ビデオ
+        - ~/ピクチャ
+        - ~/ミュージック
+        - ~/公開
+
+    - name: このリポジトリをホームディレクトリ以下に配置
+      git: 
+        repo: 'https://github.com/tilt-silvie/my-devenv'
+        desk: ~/
+
+    - name: dotfilesのシンボリックリンクを作成
+      file: src=~/my-devenv/dotfiles/.vimrc dest=~/dotfiles/.vimrc state=link
+
