@@ -34,8 +34,18 @@
     - name: このリポジトリをホームディレクトリ以下に配置
       git: 
         repo: 'https://github.com/tilt-silvie/my-devenv'
-        dest: ~/
+        dest: ~/my-devenv
 
     - name: dotfilesのシンボリックリンクを作成
-      file: src=~/my-devenv/dotfiles/.vimrc dest=~/dotfiles/.vimrc state=link
+      file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
+
+    - name: gitの設定
+      shell: "{{ item }}"
+      with_items:
+        - git config --global user.email "tilt.silvie@gmail.com"
+        - git config --global user.name "Makito Ishikura"
+        - git config --global core.editor 'vim -c "set fenc=utf-8"'
+        - git config --global color.diff auto
+        - git config --global color.status auto
+        - git config --global color.branch auto
 
