@@ -7,8 +7,12 @@ Auto development environment construction for me.
 
 ## Usage
 1. Install Ubuntu 18.04
-1. Install Ansible to Ubuntu.
-1. Run this
+1. run commands below.
 ```
-ansible-playbook my-devenv.yml --ask-become-pass
+sudo apt update
+sudo apt install git
+cd ~/
+git clone https://github.com/tilt-silvie/my-devenv.git
+cd my-devnev
+./setup.sh
 ```
