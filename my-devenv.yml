@@ -1,8 +1,8 @@
 - hosts: all
-  remote_user: ishikura
+  become: yes
+  become_user: {{ ansible_ssh_user }}
   tasks:
     - name: ツール群をインストール
-      become: yes
       apt: name={{ item }} state=installed
       with_items:
         - neovim  
@@ -10,7 +10,6 @@
         - curl
 
     - name: gitの設定
-      become: yes
       apt: name=git state=latest
     - git_config: name=user.name scope=global value="Makito Ishikura"
     - git_config: name=user.email scope=global value="tilt.silvie@gail.com"
@@ -20,7 +19,6 @@
     - git_config: name=color.branch scope=global value=auto
 
     - name: oh-my-zshをインストール
-      become: yes
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
     - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
@@ -42,7 +40,6 @@
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
 
     - name: dockerのアンインストール
-      become: yes
       ignore_errors: yes
       apt: 
         name: "{{ packages }}"
@@ -55,7 +52,6 @@
         - docker.io
 
     - name: docker関連パッケージのインストール
-      become: yes
       apt:
         name: "{{ packages }}"
       vars:
@@ -66,15 +62,12 @@
         - software-properties-common
 
     - name: dockerリポジトリ鍵の登録
-      become: yes
       shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
     - name: dockerリポジトリの登録
-      become: yes
       shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
     - name: dockerインストール
-      become: yes
       apt:
         name: docker-ce
         update_cache: yes
