@@ -7,6 +7,8 @@
     - role: geerlingguy.docker
       become: yes
 
+    - role: gantsign.visual-studio-code
+
   tasks:
     - name: gitの設定
       become: yes
