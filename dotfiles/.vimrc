@@ -58,12 +58,5 @@ set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-" color scheme to molokai
-syntax enable
-set background=dark
-colorscheme solarized
-let g:solarized_termcolors=16
-set t_Co=16
-
 set clipboard+=unnamedplus
 
