@@ -20,6 +20,7 @@
     - git_config: name=color.branch scope=global value=auto
 
     - name: oh-my-zshをインストール
+      become: yes
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
     - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
