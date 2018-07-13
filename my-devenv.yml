@@ -37,14 +37,8 @@
         - ~/ミュージック
         - ~/公開
 
-    - name: このリポジトリをホームディレクトリ以下に配置
-      git: 
-        repo: 'https://github.com/tilt-silvie/my-devenv'
-        dest: ~/my-devenv
-
     - name: dotfilesのシンボリックリンクを作成
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
-
 
     - name: dockerのアンインストール
       become: yes
