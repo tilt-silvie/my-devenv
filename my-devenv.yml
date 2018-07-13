@@ -1,8 +1,13 @@
 - hosts: all
-  become: yes
-  become_user: "{{ ansible_ssh_user }}"
+
+  roles:
+    - role: gantsign.oh-my-zsh
+      users: 
+        - username: "{{ ansible_env.USER }}"
+
   tasks:
     - name: gitの設定
+      become: yes
       apt: name=git state=latest
     - git_config: name=user.name scope=global value="Makito Ishikura"
     - git_config: name=user.email scope=global value="tilt.silvie@gail.com"
@@ -12,6 +17,7 @@
     - git_config: name=color.branch scope=global value=auto
 
     - name: install neovim
+      become: yes
       apt:
         name: neovim
         update_cache: yes
@@ -24,23 +30,16 @@
         mode: 0755
 
     - name: create neovim conf file symlink
-    - file: 
+      file: 
         src: ~/my-devenv/dotfiles/.vimrc 
         dest: ~/.config/nvim/init.vim
         state: link
 
-    - name: install zsh
-      apt:
-        name: zsh
-        state: latest
-
     - name: install curl
+      become: yes
       apt:
         name: curl
         state: latest
-
-    - name: oh-my-zshをインストール
-      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
     - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
       shell: LANG=C xdg-user-dirs-update --force
@@ -62,6 +61,7 @@
 
     - name: dockerのアンインストール
       ignore_errors: yes
+      become: yes
       apt: 
         name: "{{ packages }}"
       state: absent
@@ -73,6 +73,7 @@
         - docker.io
 
     - name: docker関連パッケージのインストール
+      become: yes
       apt:
         name: "{{ packages }}"
       vars:
@@ -83,12 +84,11 @@
         - software-properties-common
 
     - name: dockerリポジトリ鍵の登録
+      become: yes
       shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
     - name: dockerリポジトリの登録
-      shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-    - name: dockerインストール
+      become: yes
       apt:
         name: docker-ce
         update_cache: yes
