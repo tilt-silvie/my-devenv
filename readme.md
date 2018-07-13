@@ -13,6 +13,6 @@ sudo apt update
 sudo apt install -y git
 cd ~/
 git clone https://github.com/tilt-silvie/my-devenv.git
-cd my-devnev
+cd my-devenv
 ./setup.sh
 ```
