@@ -66,4 +66,4 @@ let g:solarized_termcolors=16
 set t_Co=16
 
 " clipboard link
-set clipboard=unnamed,autoselect
+set clipboarda+=unnamedplus
