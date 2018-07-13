@@ -9,6 +9,7 @@ sudo apt-get install -y ansible
 
 # install ansible roles
 ansible-galaxy install gantsign.oh-my-zsh
+ansible-galaxy install geerlingguy.docker
 
 # run ansible
 ansible-playbook -i localhost, -c local my-devenv.yml --ask-become-pass

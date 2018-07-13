@@ -4,6 +4,8 @@
     - role: gantsign.oh-my-zsh
       users: 
         - username: "{{ ansible_env.USER }}"
+    - role: geerlingguy.docker
+      become: yes
 
   tasks:
     - name: gitの設定
@@ -58,38 +60,3 @@
 
     - name: dotfilesのシンボリックリンクを作成
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
-
-    - name: dockerのアンインストール
-      ignore_errors: yes
-      become: yes
-      apt: 
-        name: "{{ packages }}"
-      state: absent
-      update_cache: yes
-      vars:
-        packages:
-        - docker 
-        - docker-engine
-        - docker.io
-
-    - name: docker関連パッケージのインストール
-      become: yes
-      apt:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-
-    - name: dockerリポジトリ鍵の登録
-      become: yes
-      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-
-    - name: dockerリポジトリの登録
-      become: yes
-      apt:
-        name: docker-ce
-        update_cache: yes
-
