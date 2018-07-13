@@ -10,7 +10,7 @@ Auto development environment construction for me.
 1. run commands below.
 ```
 sudo apt update
-sudo apt install git
+sudo apt install -y git
 cd ~/
 git clone https://github.com/tilt-silvie/my-devenv.git
 cd my-devnev
