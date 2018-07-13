@@ -2,13 +2,6 @@
   become: yes
   become_user: "{{ ansible_ssh_user }}"
   tasks:
-    - name: ツール群をインストール
-      apt: name={{ item }} state=installed
-      with_items:
-        - neovim  
-        - zsh
-        - curl
-
     - name: gitの設定
       apt: name=git state=latest
     - git_config: name=user.name scope=global value="Makito Ishikura"
@@ -17,6 +10,34 @@
     - git_config: name=core.editor scope=global value="vim -c 'set fenc=utf-8'"
     - git_config: name=color.status scope=global value=auto
     - git_config: name=color.branch scope=global value=auto
+
+    - name: install neovim
+      apt:
+        name: neovim
+        update_cache: yes
+        state: latest
+
+    - name: create neovim config directory
+      file:
+        path: ~/.config/nvim
+        state: directory
+        mode: 0755
+
+    - name: create neovim conf file symlink
+    - file: 
+        src: ~/my-devenv/dotfiles/.vimrc 
+        dest: ~/.config/nvim/init.vim
+        state: link
+
+    - name: install zsh
+      apt:
+        name: zsh
+        state: latest
+
+    - name: install curl
+      apt:
+        name: curl
+        state: latest
 
     - name: oh-my-zshをインストール
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
