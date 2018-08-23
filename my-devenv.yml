@@ -45,6 +45,12 @@
         name: curl
         state: latest
 
+    - name: install byobu
+      become: yes
+      apt:
+        name: byobu
+        state: latest
+
     - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
       shell: LANG=C xdg-user-dirs-update --force
 
