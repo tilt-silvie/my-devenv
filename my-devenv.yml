@@ -65,6 +65,10 @@
         - ~/ピクチャ
         - ~/ミュージック
         - ~/公開
+    
+    - name: remove ~/.zshrc which was created by oh-my-zsh
+      file: path=~/.zshrc state=absent
 
     - name: dotfilesのシンボリックリンクを作成
       file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
+      file: src=~/my-devenv/dotfiles/.zshrc dest=~/.zshrc state=link
