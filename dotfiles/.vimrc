@@ -75,6 +75,9 @@ if dein#load_state('~/.cache/dein')
 
  " dein
  call dein#add('~/.cache/dein')
+ 
+ " solarized
+ call dein#add('altercation/vim-colors-solarized')
 
  " deoplete
  call dein#add('Shougo/deoplete.nvim')
@@ -85,6 +88,9 @@ if dein#load_state('~/.cache/dein')
 
  call dein#add('tomtom/tcomment_vim')
  call dein#add('tpope/vim-surround')
+ call dein#add('nathanaelkane/vim-indent-guides')
+ call dein#add('Shougo/neosnippet.vim')
+ call dein#add('Shougo/neosnippet-snippets')
 
  call dein#end()
  call dein#save_state()
@@ -93,6 +99,35 @@ endif
 filetype plugin indent on
 syntax enable
 
+" solarized settings
+syntax enable
+set background=dark
+colorscheme solarized
 
 " deocomplete settings
 let g:deoplete#enable_at_startup = 1
+
+" vim-indent-guides settings
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+" neosnippet settings
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif

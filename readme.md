@@ -18,3 +18,6 @@ cd my-devenv
 ```
 
 1. launch `nvim` and install dein `:call dein#install()`
+
+## Note
+If you get some wrong color in vim or something in terminal, make sure terminal color is set to Solarized.
