@@ -40,6 +40,17 @@
         dest: ~/.config/nvim/init.vim
         state: link
 
+    - name: get dein(vim plugin manager)
+      get_url:
+        url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
+        dest: /tmp/installer.sh
+
+    - name: install dein
+      script: /tmp/installer.sh ~/.cache/dein
+
+    - name: update neovim-python client (for remove warning when nvim launched with deocomplete)
+      shell: pip3 install neovim --upgrade
+
     - name: install curl
       become: yes
       apt:

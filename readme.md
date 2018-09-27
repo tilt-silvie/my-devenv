@@ -16,3 +16,5 @@ git clone https://github.com/tilt-silvie/my-devenv.git
 cd my-devenv
 ./setup.sh
 ```
+
+1. launch `nvim` and install dein `:call dein#install()`

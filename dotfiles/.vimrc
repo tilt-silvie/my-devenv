@@ -60,3 +60,39 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 set clipboard+=unnamedplus
 
+inoremap # X<C-H>#
+
+
+" dein settings
+if &compatible
+ set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('~/.cache/dein')
+ call dein#begin('~/.cache/dein')
+
+ " dein
+ call dein#add('~/.cache/dein')
+
+ " deoplete
+ call dein#add('Shougo/deoplete.nvim')
+ if !has('nvim')
+   call dein#add('roxma/nvim-yarp')
+   call dein#add('roxma/vim-hug-neovim-rpc')
+ endif
+
+ call dein#add('tomtom/tcomment_vim')
+ call dein#add('tpope/vim-urround')
+
+ call dein#end()
+ call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+
+" deocomplete settings
+let g:deoplete#enable_at_startup = 1
