@@ -84,7 +84,7 @@ if dein#load_state('~/.cache/dein')
  endif
 
  call dein#add('tomtom/tcomment_vim')
- call dein#add('tpope/vim-urround')
+ call dein#add('tpope/vim-surround')
 
  call dein#end()
  call dein#save_state()
