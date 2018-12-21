@@ -62,6 +62,14 @@ set clipboard+=unnamedplus
 
 inoremap # X<C-H>#
 
+" HTMLの閉じタグを補完
+augroup MyXML
+    autocmd!
+    autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+    autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+    autocmd Filetype htmldjango inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
 
 " dein settings
 if &compatible
@@ -92,6 +100,10 @@ if dein#load_state('~/.cache/dein')
  call dein#add('Shougo/neosnippet.vim')
  call dein#add('Shougo/neosnippet-snippets')
 
+ "python related plugins
+ call dein#add('davidhalter/jedi-vim')
+ call dein#add('Vimjas/vim-python-pep8-indent')
+
  call dein#end()
  call dein#save_state()
 endif
@@ -107,10 +119,10 @@ colorscheme solarized
 " deocomplete settings
 let g:deoplete#enable_at_startup = 1
 
-" vim-indent-guides settings
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
+" " vim-indent-guides settings
+" let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size = 1
 
 " neosnippet settings
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
