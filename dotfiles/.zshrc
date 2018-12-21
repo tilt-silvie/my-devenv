@@ -106,3 +106,6 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 export KEYTIMEOUT=1
+
+# when cd, then ls
+function chpwd() { ls }
