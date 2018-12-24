@@ -20,6 +20,14 @@
     - git_config: name=core.editor scope=global value="vim -c 'set fenc=utf-8'"
     - git_config: name=color.status scope=global value=auto
     - git_config: name=color.branch scope=global value=auto
+    
+    
+    - name: install pip3
+      become: yes
+      apt:
+        name: python3-pip
+        update_cache: yes
+        state: latest
 
     - name: install neovim
       become: yes
