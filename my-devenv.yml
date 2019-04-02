@@ -10,9 +10,30 @@
     - role: gantsign.visual-studio-code
 
   tasks:
-    - name: gitの設定
+
+    - name: add apt repos
       become: yes
-      apt: name=git state=latest
+      apt_repository:
+        repo: "{{ item }}"
+        state: present
+      with_items:
+        - ppa:neovim-ppa/stable
+
+    - name: Install some softwares
+      become: yes
+      apt:
+        name: "{{ packages }}"
+        update_cache: yes
+        state: latest
+      vars:
+        packages:
+        - byobu
+        - curl
+        - git
+        - neovim 
+        - python3-pip
+
+
     - git_config: name=core.pager scope=global value="less -R -F -X"
     - git_config: name=user.name scope=global value="tilt-silvie"
     - git_config: name=user.email scope=global value="tilt.silvie@gmail.com"
@@ -21,20 +42,6 @@
     - git_config: name=color.status scope=global value=auto
     - git_config: name=color.branch scope=global value=auto
     
-    
-    - name: install pip3
-      become: yes
-      apt:
-        name: python3-pip
-        update_cache: yes
-        state: latest
-
-    - name: install neovim
-      become: yes
-      apt:
-        name: neovim
-        update_cache: yes
-        state: latest
 
     - name: create neovim config directory
       file:
@@ -57,18 +64,9 @@
       script: /tmp/installer.sh ~/.cache/dein
 
     - name: update neovim-python client (for remove warning when nvim launched with deocomplete)
-      shell: pip3 install neovim --upgrade
-
-    - name: install curl
-      become: yes
-      apt:
-        name: curl
-        state: latest
-
-    - name: install byobu
-      become: yes
-      apt:
-        name: byobu
+      pip:
+        name: neovim
+        executable: pip3
         state: latest
 
     - name: ホームディレクトリ以下のディレクトリ名を日本語から英語にする
@@ -90,5 +88,11 @@
       file: path=~/.zshrc state=absent
 
     - name: dotfilesのシンボリックリンクを作成
-      file: src=~/my-devenv/dotfiles/.vimrc dest=~/.vimrc state=link
-      file: src=~/my-devenv/dotfiles/.zshrc dest=~/.zshrc state=link
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+        force: yes
+      with_items:
+        - { src: '~/my-devenv/dotfiles/.vimrc', dest: '~/.vimrc' }
+        - { src: '~/my-devenv/dotfiles/.zshrc', dest: '~/.zshrc' }
