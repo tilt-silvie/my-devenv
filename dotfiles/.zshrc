@@ -109,3 +109,5 @@ export KEYTIMEOUT=1
 
 # when cd, then ls
 function chpwd() { ls }
+
+alias vim='nvim'
